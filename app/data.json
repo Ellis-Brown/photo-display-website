@@ -1,0 +1,30 @@
+{
+  "events": {
+    "katie-photo-day": {
+      "name": "Katie Photo Day",
+      "photos": [
+        {
+          "src": "https://drive.google.com/file/d/13YcUu6rSezNA2cErfM9ynPnnzZpTl1Gw/view?usp=drive_link",
+          "alt": "ellis"
+        },
+        {
+          "src": "https://lh3.googleusercontent.com/d/1N1a33GB8EHWgftnhw2FQ6pIIp-LpKRTS",
+          "alt": "Linda"
+        }
+      ]
+    },
+    "Birthday-Party": {
+      "name": "Birthday Party",
+      "photos": [
+        {
+          "src": "https://example.com/photo3.jpg",
+          "alt": "Birthday Cake"
+        },
+        {
+          "src": "https://example.com/photo4.jpg",
+          "alt": "Guests"
+        }
+      ]
+    }
+  }
+}

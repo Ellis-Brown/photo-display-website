@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-:root {
+/* :root {
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -23,4 +23,67 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+
+// Light Mode Test */
+
+/* Reset default browser styles */
+body, h1, h2, p {
+  margin: 0;
+}
+
+/* General Body and Typography */
+body {
+  /* Use the CSS variable for the body font, defined in layout.tsx */
+  font-family: var(--font-lato);
+  color: #e0e0e0; /* Light, soft gray for body text */
+  background-color: #121212; /* A deep, dark background */
+  line-height: 1.6;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  /* Use the CSS variable for the heading font, defined in layout.tsx */
+  font-family: var(--font-poppins);
+  color: #ffffff; /* Pure white for headings to make them pop */
+  
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 1.75rem;
+  font-weight: 400; /* Lighter weight for subtitle */
+  color: #bbbbbb; /* A slightly dimmer white for the subtitle */
+}
+
+/* Links */
+a {
+  color: #4d96ff; /* A vibrant blue for links */
+  text-decoration: none; /* Removes the default underline */
+  font-weight: 700; /* Make links a bit bolder */
+}
+
+a:hover {
+  text-decoration: underline; /* Adds underline on hover for clarity */
+}
+
+/* Layout */
+header {
+  margin-bottom: 2rem;
+}
+
+main {
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #1e1e1e; /* A slightly lighter dark shade for the card */
+  padding: 1.5rem; /* Add padding inside the card */
+  border-radius: 12px; /* Give the card rounded corners */
+  border: 1px solid #2c2c2c; /* Add a subtle border */
 }
