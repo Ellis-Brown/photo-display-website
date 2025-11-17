@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import PhotoModal from '../../components/PhotoModal';
+import {getImageViewingPath} from '../../utils/utilities';
 
 // import { promises as fs } from 'fs';
 
@@ -114,7 +115,7 @@ export default function OccasionPage() {
             
           >
             <ImageWithFallback
-              src={image.src}
+              src={getImageViewingPath(image.src)}
               alt={image.alt}
               width={900}
               height={900}

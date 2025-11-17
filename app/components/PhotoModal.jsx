@@ -3,6 +3,7 @@
 
 import React, { useEffect } from 'react';
 import Image from 'next/image';
+import {getImageDownloadPath} from '../utils/utilities';
 
 /**
  * Renders a full-screen modal to preview a single photo.
@@ -15,14 +16,18 @@ import Image from 'next/image';
  * @param {Function} props.onClose - The function to call when the modal should be closed.
  */
 export default function PhotoModal({ photo, onClose }) {
-    
+
 
   const handleDownloadLarge = (path) => {
-    // Redirect the user to this page: 
-    // https://drive.usercontent.google.com/u/0/uc?id= XXXXX &export=download
-    const downloadPath = 'https://drive.usercontent.google.com/u/0/uc?id=' + path.split("/").pop() + '&export=download';
-    window.location.href = downloadPath;
+      const downloadPath = getImageDownloadPath(path);
+      if (downloadPath) {
+      window.location.href = downloadPath;
+      }
+      else {
+        alert("Download not supported for this image source. Please let ellis know of the error and what you were doing.");
+        console.log("Download not supported for this image source." + path );
     }
+  }
 
   // Effect to handle keyboard events for closing the modal
   useEffect(() => {
@@ -85,10 +90,10 @@ export default function PhotoModal({ photo, onClose }) {
 
         {/* Download Buttons */}
         <div className="bg-white text-gray-800 rounded-lg p-4 flex items-center justify-between shadow-lg w-full max-w-md">
-          <span className="text-sm">Right-click the image to save a small version, or download the full resolution file.</span>
+          <span className="text-lg">Right-click the image to save a small version, or download the full resolution file.</span> <br />
           <button
             onClick={() => handleDownloadLarge(photo.src)}
-            className="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors"
+            className="bg-green-600 text-white m-2 px-6 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors mt-4"
           >
             Download Large
           </button>
