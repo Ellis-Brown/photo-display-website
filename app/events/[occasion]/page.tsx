@@ -63,7 +63,7 @@ export default function OccasionPage() {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
 
   // --- Modal Handlers ---
-  const handlePhotoClick = (photo: React.SetStateAction<null>) => {
+  const handlePhotoClick = (photo) => {
     setSelectedPhoto(photo);
   };
   const handleCloseModal = () => {
@@ -111,25 +111,22 @@ export default function OccasionPage() {
       </div>
 
       {/* --- Photo Collage --- */}
-      <div className="flex flex-wrap -mx-4">
+      <div className="columns-2 md:columns-3 lg:columns-4 gap-4">
         {event.photos.map((image) => (
           <div
             key={image.src}
-            className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-4 mb-8"
+            className="mb-4 break-inside-avoid rounded-lg shadow-md overflow-hidden"
+            
           >
-            <div
-              className="rounded-lg shadow-md overflow-hidden"
+            <ImageWithFallback
+              src={getImageViewingPath(image.src)}
+              alt={image.alt}
+              width={900}
+              height={900}
               onClick={() => handlePhotoClick(image)}
-            >
-              <ImageWithFallback
-                src={getImageViewingPath(image.src)}
-                alt={image.alt}
-                width={900}
-                height={900}
-                className="w-full h-auto object-cover cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out"
-                fallbackSrc={'https://placehold.co/600x400/CCAABB/white?text=Image+Not+Found'}
-              />
-            </div>
+              className="w-full h-auto object-cover cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out"
+              fallbackSrc={'https://placehold.co/600x400/CCAABB/white?text=Image+Not+Found'}
+            />
           </div>
         ))}
       </div>

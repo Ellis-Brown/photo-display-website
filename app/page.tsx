@@ -16,7 +16,7 @@ type Data = {
 
 async function getData(): Promise<Data | null> {
   try {
-    const res = await fetch('http://localhost:3000/api/data', { cache: 'no-store' });
+    const res = await fetch('http://localhost:3000/api/data');
     if (!res.ok) {
       throw new Error('Failed to fetch data');
     }
@@ -40,6 +40,7 @@ export default async function HomePage() {
     <div className="bg-white min-h-screen">
       <div className="max-w-3xl mx-auto p-6">
         <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">
+          {/* eslint-disable-next-line react/no-unescaped-entities */}
           Ellis's photography events and photos
         </h1>
         {data?.events && (
