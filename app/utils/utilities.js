@@ -1,10 +1,10 @@
 export function getImageDownloadPath(path) {
-    if (path.contains("lh3.googleusercontent.com")) {
+    if (path.includes("lh3.googleusercontent.com")) {
         // Redirect the user to this page: 
         // https://drive.usercontent.google.com/u/0/uc?id={XXXXX}&export=download
         const downloadPath = 'https://drive.usercontent.google.com/u/0/uc?id=' + path.split("/").pop() + '&export=download';
         window.location.href = downloadPath;
-    } else if (path.contains("drive.google.com")) {
+    } else if (path.includes("drive.google.com")) {
         // Extract the id from the file, which follows the /d and goes to the /view
         const fileId = path.split("/")[5];
         const downloadPath = 'https://drive.usercontent.google.com/u/0/uc?id=' + fileId + '&export=download';
@@ -32,6 +32,5 @@ export function getImageViewingPath(path) {
     } else {
         console.log("Cannot get image viewing path for " + path);
         return "";
-
     }
 }

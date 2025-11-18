@@ -3,7 +3,8 @@
 
 import React, { useEffect } from 'react';
 import Image from 'next/image';
-import {getImageDownloadPath} from '../utils/utilities';
+import {getImageDownloadPath, getImageViewingPath} from '../utils/utilities';
+
 
 /**
  * Renders a full-screen modal to preview a single photo.
@@ -77,7 +78,7 @@ export default function PhotoModal({ photo, onClose }) {
         <div className="relative w-[90vw] h-[80vh] mb-4">
           <Image
             // src={photo.src}
-            src={photo.src}
+            src={getImageViewingPath(photo.src)}
             alt={photo.alt}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
