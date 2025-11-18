@@ -111,22 +111,25 @@ export default function OccasionPage() {
       </div>
 
       {/* --- Photo Collage --- */}
-      <div className="columns-2 md:columns-3 lg:columns-4 gap-4">
+      <div className="flex flex-wrap -mx-4">
         {event.photos.map((image) => (
           <div
             key={image.src}
-            className="mb-4 break-inside-avoid rounded-lg shadow-md overflow-hidden"
-            
+            className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-4 mb-8"
           >
-            <ImageWithFallback
-              src={getImageViewingPath(image.src)}
-              alt={image.alt}
-              width={900}
-              height={900}
+            <div
+              className="rounded-lg shadow-md overflow-hidden"
               onClick={() => handlePhotoClick(image)}
-              className="w-full h-auto object-cover cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out"
-              fallbackSrc={'https://placehold.co/600x400/CCAABB/white?text=Image+Not+Found'}
-            />
+            >
+              <ImageWithFallback
+                src={getImageViewingPath(image.src)}
+                alt={image.alt}
+                width={900}
+                height={900}
+                className="w-full h-auto object-cover cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out"
+                fallbackSrc={'https://placehold.co/600x400/CCAABB/white?text=Image+Not+Found'}
+              />
+            </div>
           </div>
         ))}
       </div>

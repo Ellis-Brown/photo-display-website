@@ -31,6 +31,6 @@ export function getImageViewingPath(path) {
         return root + fileId;
     } else {
         console.log("Cannot get image viewing path for " + path);
-        return "";
+        return null;
     }
 }
