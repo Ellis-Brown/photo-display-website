@@ -91,19 +91,23 @@ export default function OccasionPage() {
   }
 
   return (
-    <div className="p-4 md:p-8">
+    <div className="p-4 md:p-8 min-h-screen bg-white">
       {/* --- Header with Back Button --- */}
       <div className="flex items-center mb-6 gap-6">
+        <div>
         <Link
           href="/"
           className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors"
         >
           &larr; Back to Occasions
         </Link>
+        </div>
+        <div>
         
         <h1 className="text-3xl font-bold text-gray-800 ml-6">
           {event.name}
         </h1>
+        </div>
       </div>
 
       {/* --- Photo Collage --- */}

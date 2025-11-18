@@ -37,9 +37,7 @@ export default function PhotoModal({ photo, onClose }) {
         onClose();
       }
     };
-    console.log(photo);
-
-    // Add event listener when the modal is open
+// Add event listener when the modal is open
     document.addEventListener('keydown', handleKeyDown);
 
     // Cleanup function to remove the event listener when the modal is closed
