@@ -63,7 +63,7 @@ export default function OccasionPage() {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
 
   // --- Modal Handlers ---
-  const handlePhotoClick = (photo) => {
+  const handlePhotoClick = (photo: React.SetStateAction<null>) => {
     setSelectedPhoto(photo);
   };
   const handleCloseModal = () => {
