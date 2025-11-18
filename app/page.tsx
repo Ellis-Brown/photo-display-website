@@ -1,4 +1,6 @@
+'use client';
 import Link from "next/link";
+import React, { useState, useEffect } from 'react';
 
 type Photo = {
   src: string;
@@ -14,18 +16,31 @@ type Data = {
   };
 };
 
-async function getData(): Promise<Data | null> {
-  try {
-    const res = await fetch('http://localhost:3000/api/data');
-    if (!res.ok) {
-      throw new Error('Failed to fetch data');
-    }
-    return res.json();
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    return null;
-  }
+function useEventsData() {
+  const [data, setData] = useState<Data | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/data');
+        const jsonData: Data = await response.json();
+        setData(jsonData);
+      } catch (err) {
+        setError('Failed to load event data.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array ensures this runs only once on mount
+
+  return { data, loading, error };
 }
+
 
 const EventIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -33,8 +48,16 @@ const EventIcon = () => (
   </svg>
 );
 
-export default async function HomePage() {
-  const data = await getData();
+export default function HomePage() {
+  const { data, loading, error } = useEventsData();
+  
+  if (loading) {
+    return <div className="p-8 text-center">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="p-8 text-center text-red-600">{error}</div>;
+  }
 
   return (
     <div className="bg-white min-h-screen">

@@ -111,11 +111,11 @@ export default function OccasionPage() {
       </div>
 
       {/* --- Photo Collage --- */}
-      <div className="columns-2 md:columns-3 lg:columns-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {event.photos.map((image) => (
           <div
             key={image.src}
-            className="mb-4 break-inside-avoid rounded-lg shadow-md overflow-hidden"
+            className="rounded-lg shadow-md overflow-hidden"
             
           >
             <ImageWithFallback

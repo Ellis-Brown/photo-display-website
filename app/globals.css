@@ -44,7 +44,7 @@ body {
   /* Use the CSS variable for the body font, defined in layout.tsx */
    font-family: var(--font-lato);
   color: #e0e0e0; /* Light, soft gray for body text */
-   background-color: #121212; /* A deep, dark background */
+   /* background-color: #121212; /* A deep, dark background */
   line-height: 1.6;
   padding: 2rem;
   text-align: center;
