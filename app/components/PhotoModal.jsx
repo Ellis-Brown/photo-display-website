@@ -24,10 +24,10 @@ export default function PhotoModal({ photo, onClose }) {
       if (downloadPath) {
       window.location.href = downloadPath;
       }
-      else {
-        alert("Download not supported for this image source. Please let ellis know of the error and what you were doing.");
-        console.log("Download not supported for this image source." + path );
-    }
+      // else {
+      //   alert("Download not supported for this image source. Please let ellis know of the error and what you were doing.");
+      //   console.log("Download not supported for this image source." + path );
+    // }
   }
 
   // Effect to handle keyboard events for closing the modal
