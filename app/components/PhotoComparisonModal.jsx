@@ -12,13 +12,6 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex 
     setDisplayIndex(index);
   }, [index]);
 
-  // Define the four corner photos for comparison
-  const cornerPhotos = {
-    topLeft: photos[(index + 0) % photos.length],
-    topRight: photos[(index + 1) % photos.length],
-    bottomLeft: photos[(index + 2) % photos.length],
-    bottomRight: photos[(index + 3) % photos.length],
-  };
 
   const displayPhoto = photos[displayIndex];
   // Function to go to the previous photo
@@ -122,39 +115,40 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex 
 
         {/* Corner Click Handlers with Number Overlays */}
         <div
-          className="absolute top-0 left-0 w-1/4 h-1/4 cursor-pointer group"
-          onMouseDown={() => setDisplayIndex((index + 0) % photos.length)}
-          onMouseUp={() => setDisplayIndex((index + 0) % photos.length)}
-        >
-          <div className="w-16 h-16 border-t-4 border-l-4 border-white opacity-50 group-hover:opacity-100 transition-opacity m-4 relative">
-            <span className="absolute -top-4 -left-4 text-white text-xl font-bold p-2 opacity-50 group-hover:opacity-100">1</span>
-          </div>
-        </div>
-        <div
-          className="absolute top-0 right-0 w-1/4 h-1/4 cursor-pointer group flex justify-end"
+          className="absolute top-0 left-0 w-1/2 h-1/2 cursor-pointer group"
           onMouseDown={() => setDisplayIndex((index + 1) % photos.length)}
           onMouseUp={() => setDisplayIndex((index + 0) % photos.length)}
         >
-          <div className="w-16 h-16 border-t-4 border-r-4 border-white opacity-50 group-hover:opacity-100 transition-opacity m-4 relative">
-            <span className="absolute -top-4 -right-4 text-white text-xl font-bold p-2 opacity-50 group-hover:opacity-100">2</span>
+          <div className="w-16 h-16 border-t-4 border-l-4 
+          border-white opacity-50 group-hover:opacity-100 transition-opacity m-4 relative">
+            <span className="absolute top-1 left-1 text-white text-xl font-bold p-2 opacity-50 group-hover:opacity-100">1</span>
           </div>
         </div>
         <div
-          className="absolute bottom-0 left-0 w-1/4 h-1/4 cursor-pointer group flex items-end"
+          className="absolute top-0 right-0 w-1/2 h-1/2 cursor-pointer group flex justify-end"
           onMouseDown={() => setDisplayIndex((index + 2) % photos.length)}
           onMouseUp={() => setDisplayIndex((index + 0) % photos.length)}
         >
-          <div className="w-16 h-16 border-b-4 border-l-4 border-white opacity-50 group-hover:opacity-100 transition-opacity m-4 relative">
-            <span className="absolute -bottom-4 -left-4 text-white text-xl font-bold p-2 opacity-50 group-hover:opacity-100">3</span>
+          <div className="w-16 h-16 border-t-4 border-r-4 border-white opacity-50 group-hover:opacity-100 transition-opacity m-4 relative">
+            <span className="absolute top-5 right-5 text-white text-xl font-bold p-2 opacity-90 group-hover:opacity-100">2</span>
           </div>
         </div>
         <div
-          className="absolute bottom-0 right-0 w-1/4 h-1/4 cursor-pointer group flex justify-end items-end"
+          className="absolute bottom-0 left-0 w-1/2 h-1/2 cursor-pointer group flex items-end"
           onMouseDown={() => setDisplayIndex((index + 3) % photos.length)}
           onMouseUp={() => setDisplayIndex((index + 0) % photos.length)}
         >
+          <div className="w-16 h-16 border-b-4 border-l-4 border-white opacity-50 group-hover:opacity-100 transition-opacity m-4 relative">
+            <span className="absolute bottom-1 left-1 text-white text-xl font-bold p-2 opacity-90 group-hover:opacity-100">3</span>
+          </div>
+        </div>
+        <div
+          className="absolute bottom-0 right-0 w-1/2 h-1/2 cursor-pointer group flex justify-end items-end"
+          onMouseDown={() => setDisplayIndex((index + 4) % photos.length)}
+          onMouseUp={() => setDisplayIndex((index + 0) % photos.length)}
+        >
           <div className="w-16 h-16 border-b-4 border-r-4 border-white opacity-50 group-hover:opacity-100 transition-opacity m-4 relative">
-            <span className="absolute -bottom-4 -right-4 text-red-600 text-xl font-bold p-2 opacity-90 group-hover:opacity-100">4</span>
+            <span className="absolute bottom-1 right-1 text-white text-xl font-bold p-2 opacity-90 group-hover:opacity-100">4</span>
           </div>
         </div>
       </div>
@@ -166,6 +160,9 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex 
         </button>
         <button onClick={downloadImage} className="text-white bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded">
           Download
+        </button>
+        <button onClick={onClose} className="text-white bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded">
+        Exit
         </button>
         {/* <a
           href={getImageViewingPath(displayPhoto.src || displayPhoto.url)}
