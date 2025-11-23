@@ -60,16 +60,12 @@ export default function OccasionPage() {
   const { event, loading, error } = useEventData(occasionId);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const [secondaryIndex, setSecondaryIndex] = useState(0); // New state
   const [inSelectionMode, setInSelectionMode] = useState(false);
 
   // --- Modal Handlers ---
   const handlePhotoClick = (photo, index) => {
     setSelectedPhoto(photo);
     setSelectedIndex(index);
-    if (inSelectionMode) {
-        setSecondaryIndex((index + 1) % event.photos.length);
-    }
   };
   const handleCloseModal = () => {
     setSelectedPhoto(null);
@@ -78,25 +74,17 @@ export default function OccasionPage() {
 
   // --- Keyboard Navigation ---
   const handleKeyDown = (e: KeyboardEvent) => {
-    if (!selectedPhoto || !event) return;
+    if (selectedIndex === -1 || !event) return;
 
-    if (inSelectionMode) {
-      if (e.key === "ArrowRight") {
-        setSecondaryIndex((prev) => (prev + 1) % event.photos.length);
-      } else if (e.key === "ArrowLeft") {
-        setSecondaryIndex((prev) => (prev - 1 + event.photos.length) % event.photos.length);
-      }
-    } else {
-      let newIndex;
-      if (e.key === "ArrowRight") {
-        newIndex = (selectedIndex + 1) % event.photos.length;
-      } else if (e.key === "ArrowLeft") {
-        newIndex = (selectedIndex - 1 + event.photos.length) % event.photos.length;
-      }
-      if (newIndex !== undefined) {
-        setSelectedIndex(newIndex);
-        setSelectedPhoto(event.photos[newIndex]);
-      }
+    let newIndex;
+    if (e.key === "ArrowRight") {
+      newIndex = (selectedIndex + 1) % event.photos.length;
+    } else if (e.key === "ArrowLeft") {
+      newIndex = (selectedIndex - 1 + event.photos.length) % event.photos.length;
+    }
+    if (newIndex !== undefined) {
+      setSelectedIndex(newIndex);
+      setSelectedPhoto(event.photos[newIndex]);
     }
   };
 
@@ -105,7 +93,7 @@ export default function OccasionPage() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [selectedIndex, selectedPhoto, inSelectionMode, event]);
+  }, [selectedIndex, event]);
 
 
   if (loading) {
@@ -186,10 +174,9 @@ export default function OccasionPage() {
       )}
       {selectedPhoto && inSelectionMode && (
         <PhotoComparisonModal
-          photo={selectedPhoto}
           photos={event.photos}
           index={selectedIndex}
-          secondaryIndex={secondaryIndex}
+          setIndex={setSelectedIndex}
           onClose={handleCloseModal}
         />
       )}
