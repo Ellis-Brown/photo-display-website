@@ -1,4 +1,7 @@
-Good ideas to do: 4 corners photo comparison app.
+# Ideas
+1. Select and compare mode
+    - In select and compare mode, you can select images from the main path, (option to select all), then they will have the ability to compare them.
+    - Move left, right, drop from list, download, select more, drop all, numbers to compare, left and right to compare. A little UI will show all image previews, and you will scroll left and right, etc.
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 

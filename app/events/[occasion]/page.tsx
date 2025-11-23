@@ -144,16 +144,16 @@ export default function OccasionPage() {
           }`}
           onClick={() => setInSelectionMode(!inSelectionMode)}
         >
-          {inSelectionMode ? 'Exit Comparison Mode' : 'Enter Comparison Mode'}
+          {inSelectionMode ? 'Exit Select & Compare Mode' : 'Enter Select & Compare Mode'}
         </button>
       </div>
-      {inSelectionMode && (
+      
         <div className="bg-blue-100 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg relative mb-4" role="alert">
           <p>
             Use <strong>left</strong>, <strong>right</strong>, and number keys (<strong>1-9</strong>) for image selection. Press <strong>escape</strong> to leave.
           </p>
         </div>
-      )}
+      
 
       {/* --- Photo Collage --- */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -175,11 +175,7 @@ export default function OccasionPage() {
         ))}
       </div>
 
-      {/* --- Render the Modals --- */}
-      {selectedPhoto && !inSelectionMode && (
-        <PhotoModal photo={selectedPhoto} onClose={handleCloseModal} />
-      )}
-      {selectedPhoto && inSelectionMode && (
+      {selectedPhoto && (
         <PhotoComparisonModal
           photos={event.photos}
           index={selectedIndex}
