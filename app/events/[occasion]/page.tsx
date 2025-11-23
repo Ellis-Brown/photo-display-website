@@ -65,6 +65,7 @@ export default function OccasionPage() {
   const [selectedPhotos, setSelectedPhotos] = useState<Photo[]>([]);
   const [comparisonPhotos, setComparisonPhotos] = useState<Photo[]>([]);
   const [droppedPhotos, setDroppedPhotos] = useState<Photo[]>([]);
+  const [numColumns, setNumColumns] = useState(4);
 
   useEffect(() => {
     if (event) {
@@ -169,23 +170,31 @@ export default function OccasionPage() {
 
   return (
     <div className="p-4 md:p-8 min-h-screen bg-white">
-      <SaveProgress
-        occasionId={occasionId}
-        droppedPhotos={droppedPhotos}
-        selectedPhotos={selectedPhotos}
-      />
+      {inSelectionMode && (
+        <SaveProgress
+          occasionId={occasionId}
+          droppedPhotos={droppedPhotos}
+          selectedPhotos={selectedPhotos}
+        />
+      )}
       {/* --- Header with Back Button --- */}
-      <div className="flex items-center mb-6 gap-6">
+      <div className="flex items-center justify-between mb-6 gap-6 flex-wrap">
         <div>
           <h1 className="text-3xl font-bold text-gray-800 ml-6">
             {event.name}
           </h1>
         </div>
+        <div className="flex items-center mr-6">
+            <span className="mr-2 text-gray-600">Columns:</span>
+            <button onClick={() => setNumColumns(Math.max(1, numColumns - 1))} className="px-3 py-1 rounded-l-lg bg-gray-200 hover:bg-gray-300 transition-colors text-gray-900 font-bold">-</button>
+            <span className="px-4 py-1 bg-gray-100 border-t border-b border-gray-200 text-gray-900 font-bold">{numColumns}</span>
+            <button onClick={() => setNumColumns(Math.min(8, numColumns + 1))} className="px-3 py-1 rounded-r-lg bg-gray-200 hover:bg-gray-300 transition-colors text-gray-900 font-bold">+</button>
+        </div>
       </div>
       <div>
         {/* Add a button to toggle on comparison mode */}
         <button
-          className={`mb-4 px-4 py-2 rounded-lg transition-colors ${
+          className={`mb-4 px-2 sm:px-4 py-2 rounded-lg transition-colors ${
             inSelectionMode
               ? 'bg-blue-600 text-white hover:bg-blue-700'
               : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -195,9 +204,9 @@ export default function OccasionPage() {
           {inSelectionMode ? 'Exit Select & Compare Mode' : 'Enter Select & Compare Mode'}
         </button>
         {inSelectionMode && (
-          <div className="flex gap-4 mb-4">
+          <div className="flex flex-wrap gap-2 mb-4">
             <button
-              className={`px-4 py-2 rounded-lg transition-colors ${
+              className={`px-2 sm:px-4 py-2 rounded-lg transition-colors ${
                 selectedPhotos.length > 1
                   ? 'bg-green-600 text-white hover:bg-green-700'
                   : 'bg-gray-400 text-gray-200 cursor-not-allowed'
@@ -214,7 +223,7 @@ export default function OccasionPage() {
               Begin Comparison ({selectedPhotos.length})
             </button>
             <button
-              className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700"
+              className="px-2 sm:px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700"
               onClick={() => {
                 setSelectedPhotos([]);
               }}
@@ -222,14 +231,14 @@ export default function OccasionPage() {
               Clear Selection
             </button>
             <button
-              className="px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700"
+              className="px-2 sm:px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700"
               onClick={() => setSelectedPhotos(event?.photos || [])}
             >
               Select All
             </button>
             {selectedPhotos.length > 0 && (
                 <button
-                  className="px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700"
+                  className="px-2 sm:px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700"
                   onClick={() => {
                     const downloadUrls = selectedPhotos.map(p => `<a href="${getImageDownloadUrl(p.src)}">${getImageDownloadUrl(p.src)}</a>`).join('<br />');
                     const previewUrls =  selectedPhotos.map(p => `<a href="${getImageViewingPath(p.src)}">${getImageViewingPath(p.src)}</a>`).join('<br />');
@@ -303,7 +312,18 @@ export default function OccasionPage() {
       
 
       {/* --- Photo Collage --- */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className={`grid gap-4 ${
+        {
+          1: 'grid-cols-1',
+          2: 'grid-cols-2',
+          3: 'grid-cols-3',
+          4: 'grid-cols-4',
+          5: 'grid-cols-5',
+          6: 'grid-cols-6',
+          7: 'grid-cols-7',
+          8: 'grid-cols-8',
+        }[numColumns] || 'grid-cols-4'
+      }`}>
         {event.photos.map((image, index) => {
           const isDropped = droppedPhotos.find((p) => p.src === image.src);
           const isSelected = selectedPhotos.find((p) => p.src === image.src);
