@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { getImageViewingPath } from '../utils/utilities';
+import { getImageDownloadPath, getImageViewingPath } from '../utils/utilities';
 
 export default function PhotoComparisonModal({ photos, index, onClose, setIndex }) {
   const [displayIndex, setDisplayIndex] = useState(index);
@@ -21,6 +21,28 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex 
   };
 
   const displayPhoto = photos[displayIndex];
+  // Function to go to the previous photo
+  const handlePrev = () => {
+     const prevI = (index - 1 + photos.length) % photos.length;
+     setIndex(prevI);
+    setDisplayIndex(prevI);
+  };
+
+  // Function to go to the next photo
+  const handleNext = () => {
+    const nextI = (index + 1) % photos.length;
+    setIndex(nextI);
+    setDisplayIndex(nextI);
+    console.log('Next photo index:', nextI);
+  };
+
+  const downloadImage = () => {
+    const downloadPath = getImageDownloadPath(displayPhoto.src || displayPhoto.url);
+    if (downloadPath) {
+      window.location.href = downloadPath;
+    }
+  }
+
 
   // Handle keyboard events for navigation and closing the modal
   useEffect(() => {
@@ -34,37 +56,45 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex 
         // Go to the next photo
         handleNext();
       } else if (event.key === '1') {
-        setDisplayIndex((index + 0) % photos.length);
-      } else if (event.key === '2') {
         setDisplayIndex((index + 1) % photos.length);
-      } else if (event.key === '3') {
+      } else if (event.key === '2') {
         setDisplayIndex((index + 2) % photos.length);
-      } else if (event.key === '4') {
+      } else if (event.key === '3') {
         setDisplayIndex((index + 3) % photos.length);
+      } else if (event.key === '4') {
+        setDisplayIndex((index + 4) % photos.length);
+      } else if (event.key === '5') {
+        setDisplayIndex((index + 5) % photos.length);
+      }
+      else if (event.key === '6') {
+        setDisplayIndex((index + 6) % photos.length);
+      }
+      else if (event.key === '7') {
+        setDisplayIndex((index + 7) % photos.length);
+      }
+      else if (event.key === '8') {
+        setDisplayIndex((index + 8) % photos.length);
+      }
+      else if (event.key === '9') {
+        setDisplayIndex((index + 9) % photos.length);
+        console.log('Pressed 9');
+      } else if (event.key === '0') {
+        setDisplayIndex((index) % photos.length);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [onClose, index, photos]);
+  }, [onClose, index, photos, handleNext, handlePrev]);
 
-  // Function to go to the previous photo
-  const handlePrev = () => {
-    setIndex((index - 1 + photos.length) % photos.length);
-  };
-
-  // Function to go to the next photo
-  const handleNext = () => {
-    setIndex((index + 1) % photos.length);
-  };
-
-  if (!photos || photos.length === 0) return null;
+  
+  if (!photos || photos.length === 0) return <h1>No photos to display.</h1>;
 
   return (
     <div
       className="fixed inset-0 bg-black/90 z-50 flex flex-col justify-center items-center"
-      onClick={onClose}
+      // onClick={onClose}
     >
       {/* Close Button */}
       <button
@@ -93,7 +123,8 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex 
         {/* Corner Click Handlers with Number Overlays */}
         <div
           className="absolute top-0 left-0 w-1/4 h-1/4 cursor-pointer group"
-          onClick={() => setDisplayIndex((index + 0) % photos.length)}
+          onMouseDown={() => setDisplayIndex((index + 0) % photos.length)}
+          onMouseUp={() => setDisplayIndex((index + 0) % photos.length)}
         >
           <div className="w-16 h-16 border-t-4 border-l-4 border-white opacity-50 group-hover:opacity-100 transition-opacity m-4 relative">
             <span className="absolute -top-4 -left-4 text-white text-xl font-bold p-2 opacity-50 group-hover:opacity-100">1</span>
@@ -101,7 +132,8 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex 
         </div>
         <div
           className="absolute top-0 right-0 w-1/4 h-1/4 cursor-pointer group flex justify-end"
-          onClick={() => setDisplayIndex((index + 1) % photos.length)}
+          onMouseDown={() => setDisplayIndex((index + 1) % photos.length)}
+          onMouseUp={() => setDisplayIndex((index + 0) % photos.length)}
         >
           <div className="w-16 h-16 border-t-4 border-r-4 border-white opacity-50 group-hover:opacity-100 transition-opacity m-4 relative">
             <span className="absolute -top-4 -right-4 text-white text-xl font-bold p-2 opacity-50 group-hover:opacity-100">2</span>
@@ -109,7 +141,8 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex 
         </div>
         <div
           className="absolute bottom-0 left-0 w-1/4 h-1/4 cursor-pointer group flex items-end"
-          onClick={() => setDisplayIndex((index + 2) % photos.length)}
+          onMouseDown={() => setDisplayIndex((index + 2) % photos.length)}
+          onMouseUp={() => setDisplayIndex((index + 0) % photos.length)}
         >
           <div className="w-16 h-16 border-b-4 border-l-4 border-white opacity-50 group-hover:opacity-100 transition-opacity m-4 relative">
             <span className="absolute -bottom-4 -left-4 text-white text-xl font-bold p-2 opacity-50 group-hover:opacity-100">3</span>
@@ -117,10 +150,11 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex 
         </div>
         <div
           className="absolute bottom-0 right-0 w-1/4 h-1/4 cursor-pointer group flex justify-end items-end"
-          onClick={() => setDisplayIndex((index + 3) % photos.length)}
+          onMouseDown={() => setDisplayIndex((index + 3) % photos.length)}
+          onMouseUp={() => setDisplayIndex((index + 0) % photos.length)}
         >
           <div className="w-16 h-16 border-b-4 border-r-4 border-white opacity-50 group-hover:opacity-100 transition-opacity m-4 relative">
-            <span className="absolute -bottom-4 -right-4 text-white text-xl font-bold p-2 opacity-50 group-hover:opacity-100">4</span>
+            <span className="absolute -bottom-4 -right-4 text-red-600 text-xl font-bold p-2 opacity-90 group-hover:opacity-100">4</span>
           </div>
         </div>
       </div>
@@ -130,13 +164,16 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex 
         <button onClick={handlePrev} className="text-white bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded">
           Prev
         </button>
-        <a
+        <button onClick={downloadImage} className="text-white bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded">
+          Download
+        </button>
+        {/* <a
           href={getImageViewingPath(displayPhoto.src || displayPhoto.url)}
           download
           className="text-white bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded"
         >
           Download
-        </a>
+        </a> */}
         <button onClick={handleNext} className="text-white bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded">
           Next
         </button>

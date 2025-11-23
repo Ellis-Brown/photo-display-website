@@ -55,7 +55,7 @@ export default function PhotoModal({ photo, onClose }) {
     // `onClick={onClose}` allows closing the modal by clicking the background
     <div
       className="fixed inset-0 bg-black/80 z-50 flex justify-center items-center p-4"
-      onClick={onClose}
+      // onClick={onClose}
     >
       {/* Close Button (Top Right) */}
       <button

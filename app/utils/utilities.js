@@ -22,7 +22,6 @@ export function getImageViewingPath(path) {
         console.log(path + " is not a string");
         return;
     }
-    console.log("Getting viewing path for " + path);
     if (path.includes("lh3.googleusercontent.com")) {
         return path;
     } else if (path.includes("drive.google.com")) {
