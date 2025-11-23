@@ -7,6 +7,11 @@ import {getImageDownloadPath, getImageViewingPath} from '../utils/utilities';
 
 
 /**
+ * 
+ * THIS FILE IS UNUSED
+ * 
+ * THIS FILE IS UNUSED
+ * 
  * Renders a full-screen modal to preview a single photo.
  * This component is self-contained and manages no state of its own.
  *

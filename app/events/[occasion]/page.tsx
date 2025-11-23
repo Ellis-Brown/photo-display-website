@@ -214,56 +214,68 @@ export default function OccasionPage() {
               Select All
             </button>
             {selectedPhotos.length > 0 && (
-              <button
-                className="px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700"
-                onClick={() => {
-                  const downloadUrls = selectedPhotos.map(p => getImageDownloadUrl(p.src)).join(',\n');
-                  const previewUrls = selectedPhotos.map(p => getImageViewingPath(p.src)).join(',\n');
-                  const imagesHtml = selectedPhotos.map(p => `<img src="${getImageViewingPath(p.src)}" style="max-width: 100px; max-height: 100px; display: inline-block; margin: 5px;" />`).join('');
+                <button
+                  className="px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700"
+                  onClick={() => {
+                    const downloadUrls = selectedPhotos.map(p => `<a href="${getImageDownloadUrl(p.src)}">${getImageDownloadUrl(p.src)}</a>`).join('<br />');
+                    const previewUrls =  selectedPhotos.map(p => `<a href="${getImageViewingPath(p.src)}">${getImageViewingPath(p.src)}</a>`).join('<br />');
+                    const imagesHtml = selectedPhotos.map(p => `<img src="${getImageViewingPath(p.src)}" style="max-width: 100px; max-height: 100px; display: inline-block; margin: 5px;" />`).join('');
 
-                  const newWindow = window.open();
-                  if (newWindow) {
-                      
-                        const exportPageHtml =`
-                          <html>
+                    const newWindow = window.open();
+                    if (newWindow) {
+                      const newPageContent = `
+                        <html>
                           <head><title>Selected Photos</title></head>
                           <body>
-                              <h1>Download URLs</h1>
-                              <pre>${downloadUrls}</pre>
-                              <h1>Preview URLs</h1>
-                              <pre>${previewUrls}</pre>
-                              <h1>Image Previews</h1>
-                              <div>${imagesHtml}</div>
-                            
-                      `;
-                      const exportPageHtmlEnding = `<hr />
+                            <h1>Download URLs</h1>
+                            <div id="download-urls">${downloadUrls}</div>
+                            <h1>Preview URLs</h1>
+                            <div>${previewUrls}</div>
+                            <h1>Image Previews</h1>
+                            <div>${imagesHtml}</div>
+                            <hr />
+                            <script>
+                              function downloadPage() {
+                                const htmlContent = document.documentElement.outerHTML;
+                                const blob = new Blob([htmlContent], { type: 'text/html' });
+                                const url = URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = '${occasionId || 'event'}.html';
+                                document.body.appendChild(a);
+                                a.click();
+                                document.body.removeChild(a);
+                                URL.revokeObjectURL(url);
+                              }
+
+                              function downloadAllSelected() {
+                                const urls = Array.from(document.getElementById('download-urls').getElementsByTagName('a')).map(a => a.href);
+                                urls.forEach((url, index) => {
+                                  if (url) {
+                                    setTimeout(() => {
+                                      const a = document.createElement('a');
+                                      a.href = url;
+                                      a.target = '_blank';
+                                      document.body.appendChild(a);
+                                      a.click();
+                                      document.body.removeChild(a);
+                                    }, index * 1000);
+                                  }
+                                });
+                              }
+                            </script>
+                            <button onclick="downloadPage()">Download This HTML page and share</button>
+                            <button onclick="downloadAllSelected()">Open All Selected</button>
                           </body>
-                          </html>`;
-                      const functionToDownloadPage = `
-                       <button onclick="downloadPage()">Download This HTML page and share</button>
-                              <script>
-                                function downloadPage() {
-                                  const htmlContent = document.documentElement.outerHTML;
-                                  const blob = new Blob([htmlContent], { type: 'text/html' });
-                                  const url = URL.createObjectURL(blob);
-                                  const a = document.createElement('a');
-                                  a.href = url;
-                                  a.download = '${occasionId || 'event'}.html';
-                                  document.body.appendChild(a);
-                                  a.click();
-                                  document.body.removeChild(a);
-                                  URL.revokeObjectURL(url);
-                                }
-                              <\/script>`;
-                      newWindow.document.write(exportPageHtml + functionToDownloadPage + exportPageHtmlEnding);
+                        </html>
+                      `;
+                      newWindow.document.write(newPageContent);
                       newWindow.document.close();
-                      
-                      
-                  }
-                }}
-              >
-                Export Selected URLs
-              </button>
+                    }
+                  }}
+                >
+                  Export Selected URLs
+                </button>
             )}
           </div>
         )}
