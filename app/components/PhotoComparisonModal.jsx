@@ -237,13 +237,13 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex,
                 Undo Drop
               </button>
             </div>
-            {/* Rolling 10-photo preview */}
+            {/* Rolling 20-photo preview */}
             <div className="flex justify-center items-center mt-2 space-x-2">
               {(() => {
                 const totalPhotos = comparisonPhotos.length;
                 if (totalPhotos <= 1) return null;
 
-                const previewCount = Math.min(10, totalPhotos);
+                const previewCount = Math.min(20, totalPhotos);
                 let start = Math.max(0, index - Math.floor(previewCount / 2));
                 let end = start + previewCount;
 
@@ -254,8 +254,8 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex,
                 
                 let photosForPreview = comparisonPhotos.slice(start, end);
                 
-                // When at the end, the preview window might be smaller than 10.
-                // This is to ensure we always try to show 10 if possible.
+                // When at the end, the preview window might be smaller than 20.
+                // This is to ensure we always try to show  20 if possible.
                 if (photosForPreview.length < previewCount) {
                   photosForPreview = comparisonPhotos.slice(Math.max(0, totalPhotos - previewCount));
                 }
@@ -263,10 +263,11 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex,
                 return photosForPreview.map((photo, i) => {
                   const actualIndex = comparisonPhotos.indexOf(photo);
                   const isCurrent = actualIndex === index;
-                  const photoIndexInPreview = photosForPreview.indexOf(photo);
+                  // const photoIndexInPreview = photosForPreview.indexOf(photo);
 
                   // The key jumps are relative to the current photo
-                  const numberOverlay = photoIndexInPreview < 6 ? photoIndexInPreview : -1;
+                  const numberOverlay = actualIndex - index;
+                
                   
                   return (
                     <div
@@ -281,13 +282,13 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex,
                         className="object-cover rounded-md"
                         onError={(e) => { e.target.src = 'https://placehold.co/100x100/CCCCCC/white?text=...'; }}
                       />
-                      {/* {numberOverlay !== -1 && (
+                      {numberOverlay >= 0 && numberOverlay < 10 && ( 
                         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center rounded-md">
-                          <span className="text-white font-bold text-lg bg-black/70 rounded-full h-6 w-6 flex items-center justify-center">
+                          <span className="text-white font-bold text-lg bg-bl ack/70 rounded-full h-6 w-6 flex items-center justify-center">
                             {numberOverlay}
                           </span>
                         </div>
-                      )} */}
+                      )}
                     </div>
                   );
                 });
