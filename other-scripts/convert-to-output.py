@@ -67,8 +67,8 @@ def create_json_from_links():
         sys.exit(1)
         
     # 6. Print to console
-    print("\n--- Generated JSON ---")
-    print(output_json)
+    print("\nComplete - see output file")
+
 
     # 7. Save to output file
     try:

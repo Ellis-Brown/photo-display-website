@@ -37,6 +37,240 @@ const json_dump =
         }
       ]
     },
+    "thanksgiving-highlights-unedited": {
+        "name": "Thanksgiving Highlights Unedited",
+        "photos": [
+            {
+                "src": "https://drive.google.com/file/d/1v2I6C1tUxMRlT_YHNw5MLK63zOUxIdG2/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1rEN5-AQJqXu_zI2rTi45nWgmNGmdla7P/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1ZY1VrPabEP2bjGSNjmMHuMwN3zjztnqU/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1LXppAb_14ltN-_pHjFTmkQVRV36qRyLw/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1Zj_OsCgpheiqmbY9roEgMkWzj2uwnOb7/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1E1NfATSaVVuk_YD-iFurGru_saZvvE5s/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1spG2cC7PUovMSUDOXxMUNq01vleJqDpT/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1D99Zf1IW8uTwLP6ZB65XBAfnAqwkxoGO/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/10ucTiVIxEHQ0w1dXdZrf_0E6xtuXqFfL/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1rLhxlQhe30qCdorrjFnTUvbWwYp-ugLC/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1f39C2TQjnzVkA1S4LHu3r389SXkXZBN7/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1koK7jl8fMHENBiNnyrM9ZBDlylTP2M9J/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/19jFYU4KK0WwwmIQBIYpajgJaDo7gUsxX/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1EOk1AKEcFVKlDKTwyQdNB6c2XimkRlpP/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1umfEMf2A12nikfqc9QAcl5qdN5uHnSCk/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1SgjhVGv9b_JmbqvRuagbE9hwYQeUjLih/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1mViQFlIKkJ_yC6ooSD236JmMHhWSXusB/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1WqBIkIWedkKa1zl5MXUcK6iXs0GKweKH/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1bSVaPAAbII3LNVz_avlWoXz2nqhIZTor/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1frjDSp17EhZIQsqrSsDmd7hMSPsH0RXw/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1pcPzTigTt-SPgJ3hSizQ82K34QH6HgTr/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1rLN5J994K8RN7BrsDwx2e993PcDh6EOY/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1J4LQS7y6xsxp4AaSon1XjO1t7h6QiJeH/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1BdZp6u9s7xNbPrjXRV3Yi7b-BcExWeYe/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1VR0ZCgrtI_vWW4ZR6PM3qG4SqMT0qk0f/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1-INQrEUvpIEMKb8uBjP65sngM2SFO8oo/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1uwn93colQWXXFdCLmJxiqSWwjP3CgCjc/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1LON7tppUX5vVCMDxQupnPHRUib4OHAzT/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1oWhI48AP3lB75YtfU0IsLIkI07yagJHc/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1FWy7ThVCBCVvgqEZ2bwoHoBrhYHG7HEt/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1uH3vyGU8R08sU8x-V7oV5vSptSYkAYpw/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1wqlfzwTdqkF5MmCMJjW3T3R7n68cpPV5/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1ytY4nK4HzW_s58GFC2H_NoMLBeriy9-a/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1QWOEaij5N5voH3oRUGWow2zvs9SDMJon/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1-zIQ0XVgGHI1AxWxlPqxAwGJSXjBqtqo/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1FbdOVJMakjfeuB2bAeaIxzi-rhl8VBUE/view?usp=drive_link",
+                "alt": "no alt"
+            }
+        ]
+    },
+    "josh-top-20": {
+        "name": "Josh Top 20",
+        "photos": [
+            {
+                "src": "https://drive.google.com/file/d/1tzKxSeaF1Ze8vDkDBsW6gK0S7qMOcf3h/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1BRDnDlHYadSguQUFI4w2txyRmiwAHLDj/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1iWn2e4E3aDPcovQlLVXJtYY1PNVF7aFT/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1aJNXl5G6w9zaG7KeoVQHYRXFKQbP1AfN/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1-iRU-7ULiOko21ak88Vr5SdU7qVskMov/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1IxDtLy3AwuXQw7WVfErZAUdhncQzczRr/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1cxOZiFKCQZjtN1NUM-EqZbQMCOHE29Cx/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1GbjDEVKZ_wXp9rbNmVJDF5_XfzRLzPh_/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1--CUmYsjLlMQ4puR-Ql52B1PfGq4Bcr0/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1xO5s1B3Kszcnde8eS__ESllXbgqGAUqd/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/16q9vf6pzKSqeSe7zSxep0ALPdGpkV2Ag/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1dTW7579LxETWeseLBBlGV_k1b6E88tU4/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1dOmHPcxi2k0EHwVXdVdKVeBkHfsxHQeB/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1kiDPDBBnoa1MmKLWzpJNrAF9_RgYEWZc/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1fcfSBUVw-UnTxSuPgSlMOEx_OWk3dH2T/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/149bFZCtzZNHM9o1-7KdUD9ZEmdMOYvJP/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1wTYo5u6DVdHqO59fElOOtVe4PUmhXkCD/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/19v4XozuXJ3wufgVginctFg7eCVx6N90b/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1V7B7JN2mcU2zVupCCYuz7eij85kS6rGS/view?usp=drive_link",
+                "alt": "no alt"
+            },
+            {
+                "src": "https://drive.google.com/file/d/1Cv6hpy9BURwcHLxZXeRzMDjxki5YiW0x/view?usp=drive_link",
+                "alt": "no alt"
+            }
+        ]
+    },
     "lucas-camera-photo-day-1": {
       "name": "Photo Day Lucas Camera 1",
       "photos": [
