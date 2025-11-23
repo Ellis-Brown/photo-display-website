@@ -154,14 +154,6 @@ export default function OccasionPage() {
       {/* --- Header with Back Button --- */}
       <div className="flex items-center mb-6 gap-6">
         <div>
-          <Link
-            href="/"
-            className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors"
-          >
-            &larr; Back to Occasions
-          </Link>
-        </div>
-        <div>
           <h1 className="text-3xl font-bold text-gray-800 ml-6">
             {event.name}
           </h1>
@@ -265,7 +257,7 @@ export default function OccasionPage() {
                               }
                             </script>
                             <button onclick="downloadPage()">Download This HTML page and share</button>
-                            <button onclick="downloadAllSelected()">Open All Selected</button>
+                            <button onclick="downloadAllSelected()">Download large image files</button>
                           </body>
                         </html>
                       `;

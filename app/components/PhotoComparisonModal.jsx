@@ -103,6 +103,12 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex,
       } else if (event.key === 'ArrowRight') {
         // Go to the next photo
         handleNext();
+      } else if (event.key.toLowerCase() === 'd') {
+        // Drop the current image
+        handleDrop();
+      } else if (event.key.toLowerCase() === 'u') {
+        // Undo the last drop
+        handleUndo();
       } else if (event.key >= '0' && event.key <= '9') {
         const jump = parseInt(event.key, 10);
         setDisplayIndex((index + jump) % comparisonPhotos.length);
@@ -122,7 +128,7 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex,
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [index, displayIndex, comparisonPhotos, handleNext, handlePrev]);
+  }, [index, displayIndex, comparisonPhotos, handleNext, handlePrev, handleDrop, handleUndo]);
 
   
   if (!comparisonPhotos || comparisonPhotos.length === 0) return <h1>No photos to display.</h1>;
