@@ -1,19 +1,19 @@
-export function getImageDownloadPath(path) {
+export function getImageDownloadUrl(path) {
     if (path.includes("lh3.googleusercontent.com")) {
-        // Redirect the user to this page: 
-        // https://drive.usercontent.google.com/u/0/uc?id={XXXXX}&export=download
-        const downloadPath = 'https://drive.usercontent.google.com/u/0/uc?id=' + path.split("/").pop() + '&export=download';
-        window.location.href = downloadPath;
+        return 'https://drive.usercontent.google.com/u/0/uc?id=' + path.split("/").pop() + '&export=download';
     } else if (path.includes("drive.google.com")) {
-        // Extract the id from the file, which follows the /d and goes to the /view
         const fileId = path.split("/")[5];
-        const downloadPath = 'https://drive.usercontent.google.com/u/0/uc?id=' + fileId + '&export=download';
-        window.location.href = downloadPath;
-    }
-    else {
-        // alert("Download not supported for this image source. Please let ellis know of the error and what you were doing.");
+        return 'https://drive.usercontent.google.com/u/0/uc?id=' + fileId + '&export=download';
+    } else {
         console.log("cannot get image download path for " + path);
         return "";
+    }
+}
+
+export function getImageDownloadPath(path) {
+    const downloadPath = getImageDownloadUrl(path);
+    if (downloadPath) {
+        window.location.href = downloadPath;
     }
 }
 

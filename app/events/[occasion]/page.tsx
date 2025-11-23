@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import PhotoModal from '../../components/PhotoModal';
 import PhotoComparisonModal from '../../components/PhotoComparisonModal'; // Import
-import { getImageViewingPath } from '../../utils/utilities';
+import { getImageViewingPath, getImageDownloadPath, getImageDownloadUrl } from '../../utils/utilities';
 import ImageWithFallback from '../../components/ImageWithFallback';
 
 type Photo = {
@@ -61,11 +61,44 @@ export default function OccasionPage() {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [inSelectionMode, setInSelectionMode] = useState(false);
+  const [selectedPhotos, setSelectedPhotos] = useState<Photo[]>([]);
+  const [comparisonPhotos, setComparisonPhotos] = useState<Photo[]>([]);
+  const [droppedPhotos, setDroppedPhotos] = useState<Photo[]>([]);
+
+  const handleComparisonEnd = (newlyDroppedPhotos: Photo[]) => {
+    setDroppedPhotos([...droppedPhotos, ...newlyDroppedPhotos]);
+    setSelectedPhotos(selectedPhotos.filter(p => !newlyDroppedPhotos.some(dp => dp.src === p.src)));
+  };
 
   // --- Modal Handlers ---
-  const handlePhotoClick = (photo, index) => {
-    setSelectedPhoto(photo);
-    setSelectedIndex(index);
+  const handlePhotoClick = (photo: Photo, index: number) => {
+    const isDropped = droppedPhotos.find((p) => p.src === photo.src);
+
+    if (inSelectionMode) {
+      if (isDropped) {
+        // If it's dropped, un-drop it. Then proceed to select it.
+        setDroppedPhotos(droppedPhotos.filter((p) => p.src !== photo.src));
+      }
+
+      // Toggle selection
+      if (selectedPhotos.find((p) => p.src === photo.src)) {
+        setSelectedPhotos(selectedPhotos.filter((p) => p.src !== photo.src));
+      } else {
+        setSelectedPhotos([...selectedPhotos, photo]);
+      }
+    } else {
+      if (isDropped) {
+        // If not in selection mode, clicking a dropped photo should enter selection mode and select it.
+        setInSelectionMode(true);
+        setDroppedPhotos(droppedPhotos.filter((p) => p.src !== photo.src));
+        setSelectedPhotos([photo]);
+      } else {
+        // Original behavior: open modal for a single photo
+        setSelectedPhoto(photo);
+        setSelectedIndex(index);
+        setComparisonPhotos(event?.photos || []);
+      }
+    }
   };
   const handleCloseModal = () => {
     setSelectedPhoto(null);
@@ -146,6 +179,54 @@ export default function OccasionPage() {
         >
           {inSelectionMode ? 'Exit Select & Compare Mode' : 'Enter Select & Compare Mode'}
         </button>
+        {inSelectionMode && (
+          <div className="flex gap-4 mb-4">
+            <button
+              className={`px-4 py-2 rounded-lg transition-colors ${
+                selectedPhotos.length > 1
+                  ? 'bg-green-600 text-white hover:bg-green-700'
+                  : 'bg-gray-400 text-gray-200 cursor-not-allowed'
+              }`}
+              onClick={() => {
+                if (selectedPhotos.length > 1) {
+                  setComparisonPhotos(selectedPhotos);
+                  setSelectedIndex(0);
+                  setSelectedPhoto(selectedPhotos[0]);
+                }
+              }}
+              disabled={selectedPhotos.length < 2}
+            >
+              Begin Comparison ({selectedPhotos.length})
+            </button>
+            <button
+              className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700"
+              onClick={() => {
+                setSelectedPhotos([]);
+                setDroppedPhotos([]);
+              }}
+            >
+              Clear Selection
+            </button>
+            <button
+              className="px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700"
+              onClick={() => setSelectedPhotos(event?.photos || [])}
+            >
+              Select All
+            </button>
+            {selectedPhotos.length > 0 && (
+              <button
+                className="px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700"
+                onClick={() => {
+                  const urls = selectedPhotos.map(p => getImageDownloadUrl(p.src)).join(',\n');
+                  const newWindow = window.open();
+                  newWindow?.document.write(`<pre>${urls}</pre>`);
+                }}
+              >
+                Export Selected URLs
+              </button>
+            )}
+          </div>
+        )}
       </div>
       
         <div className="bg-blue-100 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg relative mb-4" role="alert">
@@ -157,30 +238,41 @@ export default function OccasionPage() {
 
       {/* --- Photo Collage --- */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {event.photos.map((image, index) => (
-          <div
-            key={image.src}
-            className="rounded-lg shadow-md overflow-hidden"
-          >
-            <ImageWithFallback
-              src={getImageViewingPath(image.src)}
-              alt={image.alt}
-              width={900}
-              height={900}
-              onClick={() => handlePhotoClick(image, index)}
-              className="w-full h-auto object-cover cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out"
-              fallbackSrc={'https://placehold.co/600x400/CCAABB/white?text=Image+Not+Found'}
-            />
-          </div>
-        ))}
+        {event.photos.map((image, index) => {
+          const isDropped = droppedPhotos.find((p) => p.src === image.src);
+          const isSelected = selectedPhotos.find((p) => p.src === image.src);
+
+          return (
+            <div
+              key={image.src}
+              className={`rounded-lg shadow-md overflow-hidden transition-all duration-200 ${
+                inSelectionMode && isSelected ? 'ring-4 ring-blue-500 scale-95' : ''
+              } ${inSelectionMode && isDropped ? 'filter grayscale cursor-not-allowed' : ''}`}
+            >
+              <ImageWithFallback
+                src={getImageViewingPath(image.src)}
+                alt={image.alt}
+                width={900}
+                height={900}
+                onClick={() => handlePhotoClick(image, index)}
+                className={`w-full h-auto object-cover ${
+                  isDropped ? '' : 'cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out'
+                }`}
+                fallbackSrc={'https://placehold.co/600x400/CCAABB/white?text=Image+Not+Found'}
+              />
+            </div>
+          );
+        })}
       </div>
 
       {selectedPhoto && (
         <PhotoComparisonModal
-          photos={event.photos}
+          photos={comparisonPhotos}
           index={selectedIndex}
           setIndex={setSelectedIndex}
           onClose={handleCloseModal}
+          selectedComparison={inSelectionMode}
+          onComparisonEnd={handleComparisonEnd}
         />
       )}
     </div>
