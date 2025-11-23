@@ -22,6 +22,13 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex,
   };
 
   const handleDrop = () => {
+    if (index !== displayIndex) {
+      if (window.confirm("You are previewing a different image. Click OK to return to your main selection before dropping.")) {
+        setDisplayIndex(index);
+      }
+      return; // Stop the drop action
+    }
+
     if (comparisonPhotos.length <= 1) {
       handleClose(); // or show a message
       return;
@@ -64,14 +71,14 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex,
   const displayPhoto = comparisonPhotos[displayIndex];
   // Function to go to the previous photo
   const handlePrev = () => {
-     const prevI = (index - 1 + photos.length) % photos.length;
+     const prevI = (index - 1 + comparisonPhotos.length) % comparisonPhotos.length;
      setIndex(prevI);
     setDisplayIndex(prevI);
   };
 
   // Function to go to the next photo
   const handleNext = () => {
-    const nextI = (index + 1) % photos.length;
+    const nextI = (index + 1) % comparisonPhotos.length;
     setIndex(nextI);
     setDisplayIndex(nextI);
     console.log('Next photo index:', nextI);
@@ -96,38 +103,26 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex,
       } else if (event.key === 'ArrowRight') {
         // Go to the next photo
         handleNext();
-      } else if (event.key === '1') {
-        setDisplayIndex((displayIndex + 1) % comparisonPhotos.length);
-      } else if (event.key === '2') {
-        setDisplayIndex((index + 2) % photos.length);
-      } else if (event.key === '3') {
-        setDisplayIndex((index + 3) % photos.length);
-      } else if (event.key === '4') {
-        setDisplayIndex((index + 4) % photos.length);
-      } else if (event.key === '5') {
-        setDisplayIndex((index + 5) % photos.length);
-      }
-      else if (event.key === '6') {
-        setDisplayIndex((index + 6) % photos.length);
-      }
-      else if (event.key === '7') {
-        setDisplayIndex((index + 7) % photos.length);
-      }
-      else if (event.key === '8') {
-        setDisplayIndex((index + 8) % photos.length);
-      }
-      else if (event.key === '9') {
-        setDisplayIndex((index + 9) % photos.length);
-        console.log('Pressed 9');
-      } else if (event.key === '0') {
-        setDisplayIndex((index) % photos.length);
+      } else if (event.key >= '0' && event.key <= '9') {
+        const jump = parseInt(event.key, 10);
+        setDisplayIndex((index + jump) % comparisonPhotos.length);
       }
     };
+
+    const handleKeyUp = (event) => {
+      if (event.key >= '0' && event.key <= '9') {
+        setDisplayIndex(index);
+      }
+    };
+
     window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [displayIndex, comparisonPhotos, handleNext, handlePrev]);
+  }, [index, displayIndex, comparisonPhotos, handleNext, handlePrev]);
 
   
   if (!comparisonPhotos || comparisonPhotos.length === 0) return <h1>No photos to display.</h1>;
@@ -158,15 +153,15 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex,
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-contain"
-            onError={(e) => { e.target.src = 'https://placehold.co/600x400/CCCCCC/white?text=Image+Not+Found'; }}
+            onError={(e) => { e.target.src = 'https://placehold.co/600x400/CCCCCC/white?text=Image+Not+Found'; }} 
           />
         </div>
 
         {/* Corner Click Handlers with Number Overlays */}
         <div
           className="absolute top-0 left-0 w-1/2 h-1/2 cursor-pointer group"
-          onMouseDown={() => setDisplayIndex((index + 1) % photos.length)}
-          onMouseUp={() => setDisplayIndex((index + 0) % photos.length)}
+          onMouseDown={() => setDisplayIndex((index + 1) % comparisonPhotos.length)}
+          onMouseUp={() => setDisplayIndex(index)}
         >
           <div className="w-16 h-16 border-t-4 border-l-4 
           border-white opacity-50 group-hover:opacity-100 transition-opacity m-4 relative">
@@ -175,8 +170,8 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex,
         </div>
         <div
           className="absolute top-0 right-0 w-1/2 h-1/2 cursor-pointer group flex justify-end"
-          onMouseDown={() => setDisplayIndex((index + 2) % photos.length)}
-          onMouseUp={() => setDisplayIndex((index + 0) % photos.length)}
+          onMouseDown={() => setDisplayIndex((index + 2) % comparisonPhotos.length)}
+          onMouseUp={() => setDisplayIndex(index)}
         >
           <div className="w-16 h-16 border-t-4 border-r-4 border-white opacity-50 group-hover:opacity-100 transition-opacity m-4 relative">
             <span className="absolute top-5 right-5 text-white text-xl font-bold p-2 opacity-90 group-hover:opacity-100">2</span>
@@ -184,8 +179,8 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex,
         </div>
         <div
           className="absolute bottom-0 left-0 w-1/2 h-1/2 cursor-pointer group flex items-end"
-          onMouseDown={() => setDisplayIndex((index + 3) % photos.length)}
-          onMouseUp={() => setDisplayIndex((index + 0) % photos.length)}
+          onMouseDown={() => setDisplayIndex((index + 3) % comparisonPhotos.length)}
+          onMouseUp={() => setDisplayIndex(index)}
         >
           <div className="w-16 h-16 border-b-4 border-l-4 border-white opacity-50 group-hover:opacity-100 transition-opacity m-4 relative">
             <span className="absolute bottom-1 left-1 text-white text-xl font-bold p-2 opacity-90 group-hover:opacity-100">3</span>
@@ -193,8 +188,8 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex,
         </div>
         <div
           className="absolute bottom-0 right-0 w-1/2 h-1/2 cursor-pointer group flex justify-end items-end"
-          onMouseDown={() => setDisplayIndex((index + 4) % photos.length)}
-          onMouseUp={() => setDisplayIndex((index + 0) % photos.length)}
+          onMouseDown={() => setDisplayIndex((index + 4) % comparisonPhotos.length)}
+          onMouseUp={() => setDisplayIndex(index)}
         >
           <div className="w-16 h-16 border-b-4 border-r-4 border-white opacity-50 group-hover:opacity-100 transition-opacity m-4 relative">
             <span className="absolute bottom-1 right-1 text-white text-xl font-bold p-2 opacity-90 group-hover:opacity-100">4</span>
@@ -286,13 +281,13 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex,
                         className="object-cover rounded-md"
                         onError={(e) => { e.target.src = 'https://placehold.co/100x100/CCCCCC/white?text=...'; }}
                       />
-                      {numberOverlay !== -1 && (
+                      {/* {numberOverlay !== -1 && (
                         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center rounded-md">
                           <span className="text-white font-bold text-lg bg-black/70 rounded-full h-6 w-6 flex items-center justify-center">
                             {numberOverlay}
                           </span>
                         </div>
-                      )}
+                      )} */}
                     </div>
                   );
                 });
