@@ -7,6 +7,7 @@ import PhotoModal from '../../components/PhotoModal';
 import PhotoComparisonModal from '../../components/PhotoComparisonModal'; // Import
 import { getImageViewingPath, getImageDownloadPath, getImageDownloadUrl } from '../../utils/utilities';
 import ImageWithFallback from '../../components/ImageWithFallback';
+import SaveProgress from '../../components/SaveProgress';
 
 type Photo = {
   src: string;
@@ -64,6 +65,23 @@ export default function OccasionPage() {
   const [selectedPhotos, setSelectedPhotos] = useState<Photo[]>([]);
   const [comparisonPhotos, setComparisonPhotos] = useState<Photo[]>([]);
   const [droppedPhotos, setDroppedPhotos] = useState<Photo[]>([]);
+
+  useEffect(() => {
+    if (event) {
+      const savedProgress = sessionStorage.getItem('progressData');
+      if (savedProgress) {
+        const progressData = JSON.parse(savedProgress);
+        if (progressData.occasionId === occasionId) {
+          const loadedDroppedPhotos = event.photos.filter(p => progressData.droppedPhotos.includes(p.src));
+          const loadedSelectedPhotos = event.photos.filter(p => progressData.selectedPhotos.includes(p.src));
+          setDroppedPhotos(loadedDroppedPhotos);
+          setSelectedPhotos(loadedSelectedPhotos);
+          setInSelectionMode(true);
+        }
+        sessionStorage.removeItem('progressData');
+      }
+    }
+  }, [event, occasionId]);
 
   const handleComparisonEnd = (newlyDroppedPhotos: Photo[]) => {
     setDroppedPhotos([...droppedPhotos, ...newlyDroppedPhotos]);
@@ -151,6 +169,11 @@ export default function OccasionPage() {
 
   return (
     <div className="p-4 md:p-8 min-h-screen bg-white">
+      <SaveProgress
+        occasionId={occasionId}
+        droppedPhotos={droppedPhotos}
+        selectedPhotos={selectedPhotos}
+      />
       {/* --- Header with Back Button --- */}
       <div className="flex items-center mb-6 gap-6">
         <div>
@@ -194,7 +217,6 @@ export default function OccasionPage() {
               className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700"
               onClick={() => {
                 setSelectedPhotos([]);
-                setDroppedPhotos([]);
               }}
             >
               Clear Selection
