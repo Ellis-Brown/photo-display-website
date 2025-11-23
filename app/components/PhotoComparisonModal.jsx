@@ -279,6 +279,7 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex,
                         src={getImageViewingPath(photo.src || photo.url)}
                         alt={photo.alt}
                         fill
+                        sizes="500px"
                         className="object-cover rounded-md"
                         onError={(e) => { e.target.src = 'https://placehold.co/100x100/CCCCCC/white?text=...'; }}
                       />
