@@ -4,10 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import PhotoModal from '../../components/PhotoModal';
-import {getImageViewingPath} from '../../utils/utilities';
-
-// import { promises as fs } from 'fs';
-
+import PhotoComparisonModal from '../../components/PhotoComparisonModal'; // Import
+import { getImageViewingPath } from '../../utils/utilities';
 import ImageWithFallback from '../../components/ImageWithFallback';
 
 type Photo = {
@@ -22,7 +20,7 @@ type EventData = {
 
 type Data = {
   events: {
-    [eventUrl:string]: EventData;
+    [eventUrl: string]: EventData;
   };
 };
 
@@ -40,7 +38,7 @@ function useEventData(occasionId: string | string[] | undefined) {
         const data: Data = await response.json();
         setEvent(data.events[occasionId as string] || null);
       } catch (err) {
-        setError('Failed to load event data.' +  err);
+        setError('Failed to load event data.' + err);
         console.error(err);
       } finally {
         setLoading(false);
@@ -61,14 +59,54 @@ export default function OccasionPage() {
   const occasionId = params.occasion;
   const { event, loading, error } = useEventData(occasionId);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [secondaryIndex, setSecondaryIndex] = useState(0); // New state
+  const [inSelectionMode, setInSelectionMode] = useState(false);
 
   // --- Modal Handlers ---
-  const handlePhotoClick = (photo) => {
+  const handlePhotoClick = (photo, index) => {
     setSelectedPhoto(photo);
+    setSelectedIndex(index);
+    if (inSelectionMode) {
+        setSecondaryIndex((index + 1) % event.photos.length);
+    }
   };
   const handleCloseModal = () => {
     setSelectedPhoto(null);
+    setSelectedIndex(-1);
   };
+
+  // --- Keyboard Navigation ---
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (!selectedPhoto || !event) return;
+
+    if (inSelectionMode) {
+      if (e.key === "ArrowRight") {
+        setSecondaryIndex((prev) => (prev + 1) % event.photos.length);
+      } else if (e.key === "ArrowLeft") {
+        setSecondaryIndex((prev) => (prev - 1 + event.photos.length) % event.photos.length);
+      }
+    } else {
+      let newIndex;
+      if (e.key === "ArrowRight") {
+        newIndex = (selectedIndex + 1) % event.photos.length;
+      } else if (e.key === "ArrowLeft") {
+        newIndex = (selectedIndex - 1 + event.photos.length) % event.photos.length;
+      }
+      if (newIndex !== undefined) {
+        setSelectedIndex(newIndex);
+        setSelectedPhoto(event.photos[newIndex]);
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedIndex, selectedPhoto, inSelectionMode, event]);
+
 
   if (loading) {
     return <div className="p-8 text-center">Loading...</div>;
@@ -95,35 +133,46 @@ export default function OccasionPage() {
       {/* --- Header with Back Button --- */}
       <div className="flex items-center mb-6 gap-6">
         <div>
-        <Link
-          href="/"
-          className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors"
-        >
-          &larr; Back to Occasions
-        </Link>
+          <Link
+            href="/"
+            className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors"
+          >
+            &larr; Back to Occasions
+          </Link>
         </div>
         <div>
-        
-        <h1 className="text-3xl font-bold text-gray-800 ml-6">
-          {event.name}
-        </h1>
+          <h1 className="text-3xl font-bold text-gray-800 ml-6">
+            {event.name}
+          </h1>
         </div>
+      </div>
+      <div>
+        {/* Add a button to toggle on comparison mode */}
+        <button
+          className={`mb-4 px-4 py-2 rounded-lg transition-colors ${
+            inSelectionMode
+              ? 'bg-blue-600 text-white hover:bg-blue-700'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+          }`}
+          onClick={() => setInSelectionMode(!inSelectionMode)}
+        >
+          {inSelectionMode ? 'Exit Comparison Mode' : 'Enter Comparison Mode'}
+        </button>
       </div>
 
       {/* --- Photo Collage --- */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {event.photos.map((image) => (
+        {event.photos.map((image, index) => (
           <div
             key={image.src}
             className="rounded-lg shadow-md overflow-hidden"
-            
           >
             <ImageWithFallback
               src={getImageViewingPath(image.src)}
               alt={image.alt}
               width={900}
               height={900}
-              onClick={() => handlePhotoClick(image)}
+              onClick={() => handlePhotoClick(image, index)}
               className="w-full h-auto object-cover cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out"
               fallbackSrc={'https://placehold.co/600x400/CCAABB/white?text=Image+Not+Found'}
             />
@@ -131,8 +180,19 @@ export default function OccasionPage() {
         ))}
       </div>
 
-      {/* --- Render the Modal --- */}
-      <PhotoModal photo={selectedPhoto} onClose={handleCloseModal} />
+      {/* --- Render the Modals --- */}
+      {selectedPhoto && !inSelectionMode && (
+        <PhotoModal photo={selectedPhoto} onClose={handleCloseModal} />
+      )}
+      {selectedPhoto && inSelectionMode && (
+        <PhotoComparisonModal
+          photo={selectedPhoto}
+          photos={event.photos}
+          index={selectedIndex}
+          secondaryIndex={secondaryIndex}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 }
