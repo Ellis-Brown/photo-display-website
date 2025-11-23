@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { getImageDownloadPath, getImageViewingPath } from '../utils/utilities';
 
@@ -35,16 +35,16 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex,
     }
 
     const droppedPhoto = {
-      photo: comparisonPhotos[displayIndex],
-      originalIndex: displayIndex,
+      photo: comparisonPhotos[index],
+      originalIndex: index,
     };
     setDroppedPhotos([...droppedPhotos, droppedPhoto]);
 
-    const newPhotos = comparisonPhotos.filter((_, i) => i !== displayIndex);
+    const newPhotos = comparisonPhotos.filter((_, i) => i !== index);
     setComparisonPhotos(newPhotos);
 
     // Adjust index to show the next photo, or the previous one if it was the last
-    const newIndex = displayIndex >= newPhotos.length ? newPhotos.length - 1 : displayIndex;
+    const newIndex = index >= newPhotos.length ? newPhotos.length - 1 : index;
     setIndex(newIndex)
     setDisplayIndex(newIndex);
   };
@@ -69,20 +69,20 @@ export default function PhotoComparisonModal({ photos, index, onClose, setIndex,
 
 
   const displayPhoto = comparisonPhotos[displayIndex];
-  // Function to go to the previous photo
-  const handlePrev = () => {
-     const prevI = (index - 1 + comparisonPhotos.length) % comparisonPhotos.length;
-     setIndex(prevI);
+  const handlePrev = useCallback(() => {
+    if (comparisonPhotos.length === 0) return;
+    const prevI = (index - 1 + comparisonPhotos.length) % comparisonPhotos.length;
+    setIndex(prevI);
     setDisplayIndex(prevI);
-  };
+  }, [comparisonPhotos, index, setIndex]);
 
   // Function to go to the next photo
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
+    if (comparisonPhotos.length === 0) return;
     const nextI = (index + 1) % comparisonPhotos.length;
     setIndex(nextI);
     setDisplayIndex(nextI);
-    console.log('Next photo index:', nextI);
-  };
+  }, [comparisonPhotos, index, setIndex]);
 
   const downloadImage = () => {
     const downloadPath = getImageDownloadPath(displayPhoto.src || displayPhoto.url);
