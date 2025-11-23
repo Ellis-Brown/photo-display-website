@@ -217,9 +217,49 @@ export default function OccasionPage() {
               <button
                 className="px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700"
                 onClick={() => {
-                  const urls = selectedPhotos.map(p => getImageDownloadUrl(p.src)).join(',\n');
+                  const downloadUrls = selectedPhotos.map(p => getImageDownloadUrl(p.src)).join(',\n');
+                  const previewUrls = selectedPhotos.map(p => getImageViewingPath(p.src)).join(',\n');
+                  const imagesHtml = selectedPhotos.map(p => `<img src="${getImageViewingPath(p.src)}" style="max-width: 100px; max-height: 100px; display: inline-block; margin: 5px;" />`).join('');
+
                   const newWindow = window.open();
-                  newWindow?.document.write(`<pre>${urls}</pre>`);
+                  if (newWindow) {
+                      
+                        const exportPageHtml =`
+                          <html>
+                          <head><title>Selected Photos</title></head>
+                          <body>
+                              <h1>Download URLs</h1>
+                              <pre>${downloadUrls}</pre>
+                              <h1>Preview URLs</h1>
+                              <pre>${previewUrls}</pre>
+                              <h1>Image Previews</h1>
+                              <div>${imagesHtml}</div>
+                            
+                      `;
+                      const exportPageHtmlEnding = `<hr />
+                          </body>
+                          </html>`;
+                      const functionToDownloadPage = `
+                       <button onclick="downloadPage()">Download This HTML page and share</button>
+                              <script>
+                                function downloadPage() {
+                                  const htmlContent = document.documentElement.outerHTML;
+                                  const blob = new Blob([htmlContent], { type: 'text/html' });
+                                  const url = URL.createObjectURL(blob);
+                                  const a = document.createElement('a');
+                                  a.href = url;
+                                  a.download = '${occasionId || 'event'}.html';
+                                  document.body.appendChild(a);
+                                  a.click();
+                                  document.body.removeChild(a);
+                                  URL.revokeObjectURL(url);
+                                }
+                              <\/script>`;
+                      newWindow.document.write(exportPageHtml + functionToDownloadPage + exportPageHtmlEnding);
+                      newWindow.document.close();
+                      
+                      
+                  }
                 }}
               >
                 Export Selected URLs
